@@ -6,6 +6,10 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  # Avoid having to restart when running on a virtual machine
+  # https://stackoverflow.com/questions/41067064/rails-5-restart-server-every-time-controller-or-model-changes
+  config.reload_classes_only_on_change = false
+
   # Do not eager load code on boot.
   config.eager_load = false
 
@@ -58,4 +62,18 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # Devise
+  config.action_mailer.default_url_options = { host: 'bothealth.local', port: 3000 }
+
+  # Using Gmail to keep things simple at development
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :user_name            => ENV['GMAIL_USERNAME'],
+    :password             => ENV['GMAIL_PASSWORD'],
+    :authentication       => "plain",
+    :enable_starttls_auto => true
+  }
 end
