@@ -1,22 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Bothealth</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+	<head>
+		<title>Bothealth</title>
+		<%= csrf_meta_tags %>
+		<%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+		<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+		<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+	</head>
 
-  <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <ul class="hmenu">
-      <%= render 'devise/menu/registration_items' %>
-      <%= render 'devise/menu/login_items' %>
-    </ul>
-    <hr/>
-    <%= yield %>
-  </body>
+	<body>
+		<div id='loader'>
+			<div class="spinner"></div>
+		</div>
+		<script>window.addEventListener('load', function load() {
+			const loader = document.getElementById('loader');
+			setTimeout(function() {
+			loader.classList.add('fadeOut');
+			}, 300);
+		});</script>
+		<!-- <p class="notice"><%= notice %></p>
+		<p class="alert"><%= alert %></p>
+		<ul class="hmenu">
+			<%= render 'devise/menu/registration_items' %>
+			<%= render 'devise/menu/login_items' %>
+		</ul>
+		<hr/> -->
+		<%= yield %>
+
+		<script>
+			window.addEventListener('load', function load() {
+				const loader = document.getElementById('loader');
+				setTimeout(function() {
+					loader.classList.add('fadeOut');
+				}, 300);
+			});
+		</script>
+	</body>
 </html>

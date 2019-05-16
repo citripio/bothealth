@@ -1,26 +1,15 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+<div class="peers ai-s fxw-nw h-100vh">
+	<div class="d-n@sm- peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv" style="background-image: url(<%= image_path('bg.jpg') %>)">
+		<div class="pos-a centerXY">
+			<div class="bgc-white bdrs-50p pos-r" style='width: 120px; height: 120px;'>
+				<img class="pos-a centerXY" src="<%= image_path('logo.png') %>" alt="">
+			</div>
+		</div>
+	</div>
+	<div class="col-12 col-md-4 peer pX-40 pY-80 h-100 bgc-white scrollable pos-r" style='min-width: 320px;'>
+		<h4 class="fw-300 c-grey-900 mB-40">Login</h4>
+		<%= render partial: "form" %>
+		<hr />
+		<%= render "devise/shared/links" %>
+	</div>
+</div>

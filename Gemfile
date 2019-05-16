@@ -64,3 +64,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise', '~> 4.0'
 
 gem 'omniauth-facebook', '~> 5.0'
+
+gem 'koala', '~> 3.0'

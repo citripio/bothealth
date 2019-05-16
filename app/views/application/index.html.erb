@@ -1,5 +1,7 @@
-<% if user_signed_in? %>
-	<h1>Welcome, <%= current_user.first_name %> <%= current_user.last_name %></h1>
-<% else %>
-	<h1>Welcome, guest</h1>
+<h1>Welcome, <%= current_user.full_name %></h1>
+<%= link_to "Add new Facebook Page", omniauth_authorize_path(:user, :facebook), class: "btn btn-primary" %>
+<hr/>
+<% @insights.each do |insight| %>
+	<h3>Insights for <%= insight[:page_name] %></h3>
+	<pre style="height: 200px;"><%= JSON.pretty_generate(insight[:page_insights]) %></pre>
 <% end %>

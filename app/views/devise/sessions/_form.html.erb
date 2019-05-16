@@ -1,0 +1,40 @@
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="form-group">
+    <%= f.label :email, class: "text-normal text-dark" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password, class: "text-normal text-dark" %>
+    <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <div class="peers ai-c jc-sb fxw-nw">
+      <% if devise_mapping.rememberable? %>
+        <div class="peer">
+          <div class="checkbox checkbox-circle checkbox-info peers ai-c">
+            <%= f.check_box :remember_me, class: "peer", id: "inputCall1" %>
+            <label for="inputCall1" class=" peers peer-greed js-sb ai-c">
+              <span class="peer peer-greed">Remember Me</span>
+            </label>
+          </div>
+        </div>
+      <% end %>
+      <div class="peer">
+        <%= f.submit "Log in", class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <%- if devise_mapping.omniauthable? %>
+    <%- resource_class.omniauth_providers.each do |provider| %>
+      <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: "btn btn-primary btn-block" %>
+    <% end %>
+  <% end %>
+
+<% end %>
