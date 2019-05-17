@@ -1,0 +1,26 @@
+<div class="container">
+	<div class="row">
+		<div class="col-8">
+			<h1><%= @organization.title %></h1>
+			<%= link_to "Add new Facebook Page", omniauth_authorize_path(:user, :facebook), class: "btn btn-primary" %>
+			<hr/>
+			<p><strong>Facebook Pages:</strong></p>
+			<ul>
+				<% @organization.facebook_pages.each do |page| %>
+					<li><%= link_to page.name, page %></li>
+				<% end %>
+			</ul>
+		</div>
+		<div class="col-4">
+			<p><%= pluralize(@organization.users.length, "member") %>:</p>
+			<ul>
+				<% @organization.users.each do |user| %>
+				<li><%= user.full_name %></li>
+				<% end %>
+			</ul>
+			<hr />
+			<%= link_to 'Edit', edit_organization_path(@organization) %> |
+			<%= link_to 'Back', organizations_path %>
+		</div>
+	</div>
+</div>

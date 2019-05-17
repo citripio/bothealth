@@ -10,24 +10,18 @@
 	</head>
 
 	<body>
+		<%= "<div class='alert alert-primary mb-0' role='alert'>#{notice}</div>".html_safe if !notice.nil? %>
+		<%= "<div class='alert alert-danger mb-0' role='alert'>#{alert}</div>".html_safe if !alert.nil? %>
 		<div id='loader'>
 			<div class="spinner"></div>
 		</div>
-		<script>window.addEventListener('load', function load() {
-			const loader = document.getElementById('loader');
-			setTimeout(function() {
-			loader.classList.add('fadeOut');
-			}, 300);
-		});</script>
-		<!-- <p class="notice"><%= notice %></p>
-		<p class="alert"><%= alert %></p>
-		<ul class="hmenu">
+		<!-- <ul class="hmenu">
 			<%= render 'devise/menu/registration_items' %>
 			<%= render 'devise/menu/login_items' %>
 		</ul>
 		<hr/> -->
 		<%= yield %>
-
+		
 		<script>
 			window.addEventListener('load', function load() {
 				const loader = document.getElementById('loader');
