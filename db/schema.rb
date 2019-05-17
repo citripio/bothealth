@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_17_015155) do
+ActiveRecord::Schema.define(version: 2019_05_17_035742) do
 
   create_table "facebook_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "identifier"
@@ -36,6 +36,51 @@ ActiveRecord::Schema.define(version: 2019_05_17_015155) do
     t.index ["user_id"], name: "index_organizations_users_on_user_id"
   end
 
+  create_table "raw_blocked_conversations_uniques", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "value"
+    t.datetime "end_time"
+    t.bigint "facebook_page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["facebook_page_id"], name: "index_raw_blocked_conversations_uniques_on_facebook_page_id"
+  end
+
+  create_table "raw_feedback_by_action_uniques", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.json "value"
+    t.datetime "end_time"
+    t.bigint "facebook_page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["facebook_page_id"], name: "index_raw_feedback_by_action_uniques_on_facebook_page_id"
+  end
+
+  create_table "raw_new_conversations_uniques", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "value"
+    t.datetime "end_time"
+    t.bigint "facebook_page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["facebook_page_id"], name: "index_raw_new_conversations_uniques_on_facebook_page_id"
+  end
+
+  create_table "raw_reported_conversations_uniques", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "value"
+    t.datetime "end_time"
+    t.bigint "facebook_page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["facebook_page_id"], name: "index_raw_reported_conversations_uniques_on_facebook_page_id"
+  end
+
+  create_table "raw_total_messaging_connections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "value"
+    t.datetime "end_time"
+    t.bigint "facebook_page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["facebook_page_id"], name: "index_raw_total_messaging_connections_on_facebook_page_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -59,4 +104,9 @@ ActiveRecord::Schema.define(version: 2019_05_17_015155) do
   end
 
   add_foreign_key "facebook_pages", "organizations"
+  add_foreign_key "raw_blocked_conversations_uniques", "facebook_pages"
+  add_foreign_key "raw_feedback_by_action_uniques", "facebook_pages"
+  add_foreign_key "raw_new_conversations_uniques", "facebook_pages"
+  add_foreign_key "raw_reported_conversations_uniques", "facebook_pages"
+  add_foreign_key "raw_total_messaging_connections", "facebook_pages"
 end

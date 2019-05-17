@@ -11,16 +11,12 @@ class FacebookPagesController < ApplicationController
   # GET /facebook_pages/1
   # GET /facebook_pages/1.json
   def show
-    page_graph = Koala::Facebook::API.new(@facebook_page.access_token)
-    since = (Time.now - 1.month).to_i
-    metric = %w(
-      page_messages_total_messaging_connections
-      page_messages_new_conversations_unique
-      page_messages_blocked_conversations_unique
-      page_messages_reported_conversations_unique
-      page_messages_feedback_by_action_unique
-    )
-    @insights = page_graph.get_object("me/insights?metric=#{metric.join(",")}&since=#{since}")
+    @start_date = params[:start_date].to_date rescue Date.today - 14.days
+    @end_date = params[:end_date].to_date rescue Date.today
+    @total_conversations = @facebook_page.total_conversations(@start_date, @end_date)
+    @new_conversations = @facebook_page.new_conversations(@start_date, @end_date)
+    @blocked_conversations = @facebook_page.blocked_conversations(@start_date, @end_date)
+    @reported_conversations = @facebook_page.reported_conversations(@start_date, @end_date)
   end
 
   # GET /facebook_pages/new

@@ -15,4 +15,5 @@
 //= require turbolinks
 //= require vendor
 //= require bundle
+//= require colors
 //= require_tree .

@@ -1,6 +1,94 @@
-<h1><%= @facebook_page.name %></h1>
+<h1><%= @facebook_page.name %> <small><%= @start_date.to_s(:db) %> -- <%= @end_date.to_s(:db) %></small></h1>
 
-<pre style="height: 200px;"><%= JSON.pretty_generate(@insights) %></pre>
+<p>Total conversations: <%= number_with_delimiter(@total_conversations) %></p>
+<p>New conversations: <%= number_with_delimiter(@new_conversations) %></p>
+<p>Blocked conversations: <%= number_with_delimiter(@blocked_conversations) %></p>
+<p>Reported conversations: <%= number_with_delimiter(@reported_conversations) %></p>
 
-<%= link_to 'Edit', edit_facebook_page_path(@facebook_page) %> |
-<%= link_to 'Back', facebook_pages_path %>
+<hr />
+
+<canvas id="line-chart" height="420"></canvas>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+<script>
+	const lineChartBox = document.getElementById('line-chart');
+
+	if (lineChartBox) {
+		const lineCtx = lineChartBox.getContext('2d');
+		lineChartBox.height = 80;
+
+		new Chart(lineCtx, {
+			type: 'line',
+			data: {
+				labels: <%= raw @facebook_page.format_for_chart(
+					:raw_total_messaging_connections, 
+					:end_time, @start_date, @end_date).map{|d| d.to_date.to_s(:db)} %>,
+				datasets: [
+				{
+					label                : "<%= RawTotalMessagingConnection.title %>",
+					backgroundColor      : 'rgba(237, 231, 246, 0.5)',
+					borderColor          : COLORS['blue-500'],
+					pointBackgroundColor : COLORS['blue-700'],
+					borderWidth          : 2,
+					data                 : <%= @facebook_page.format_for_chart(:raw_total_messaging_connections, :value, @start_date, @end_date) %>,
+				}, 
+				{
+					label                : "<%= RawNewConversationsUnique.title %>",
+					backgroundColor      : 'rgba(232, 245, 233, 0.5)',
+					borderColor          : COLORS['green-200'],
+					pointBackgroundColor : COLORS['green-300'],
+					borderWidth          : 2,
+					data                 : <%= @facebook_page.format_for_chart(:raw_new_conversations_unique, :value, @start_date, @end_date) %>,
+				}, {
+					label                : "<%= RawReportedConversationsUnique.title %>",
+					backgroundColor      : 'rgba(232, 245, 233, 0.5)',
+					borderColor          : COLORS['red-200'],
+					pointBackgroundColor : COLORS['red-300'],
+					borderWidth          : 2,
+					data                 : <%= @facebook_page.format_for_chart(:raw_reported_conversations_unique, :value, @start_date, @end_date) %>,
+				}, {
+					label                : "<%= RawBlockedConversationsUnique.title %>",
+					backgroundColor      : 'rgba(232, 245, 233, 0.5)',
+					borderColor          : COLORS['red-500'],
+					pointBackgroundColor : COLORS['red-700'],
+					borderWidth          : 2,
+					data                 : <%= @facebook_page.format_for_chart(:raw_blocked_conversations_unique, :value, @start_date, @end_date) %>,
+				}],
+			},
+			options: {
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+					callbacks: {
+						label: function(tooltipItem, data) {
+							console.log(tooltipItem)
+							console.log(data)
+							var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+							value = value.toString();
+							value = value.split(/(?=(?:...)*$)/);
+							value = data.datasets[tooltipItem.datasetIndex].label + ": " + value.join(',');
+							return value;
+						}
+					}
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero:true,
+							userCallback: function(value, index, values) {
+								value = value.toString();
+								value = value.split(/(?=(?:...)*$)/);
+								value = value.join(',');
+								return value;
+							}
+						}
+					}],
+					xAxes: [{
+						ticks: {
+						}
+					}]
+				}
+			}
+		});
+	}
+</script>
