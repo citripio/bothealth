@@ -1,94 +1,241 @@
-<h1><%= @facebook_page.name %> <small><%= @start_date.to_s(:db) %> -- <%= @end_date.to_s(:db) %></small></h1>
+<div>
+	<%= render partial: 'sidebar' %>
+	<!-- #Main ============================ -->
+	<div class="page-container">
+		<%= render partial: 'topbar' %>
+		<!-- ### $App Screen Content ### -->
+		<main class='main-content bgc-grey-100'>
+			<%= "<div class='alert alert-primary'>#{notice}</div>".html_safe if !notice.nil? %>
+			<%= "<div class='alert alert-danger'>#{alert}</div>".html_safe if !alert.nil? %>
+			<div id='mainContent'>
+				<div class="row gap-20 masonry pos-r">
+					<div class="masonry-sizer col-md-6 pos-a"></div>
+					<div class="masonry-item  w-100">
+						<div class="row gap-20">
+							<div class='col-md-12 d-flex justify-content-between'>
+								<h1 class="h3"><%= @facebook_page.name %>: <small class="text-muted"><%= @start_date.to_s(:short) %> - <%= @end_date.to_s(:short) %></small></h1>
+								<div>
+									<div class="input-group input-daterange">
+										<input type="text" placeholder="Start date" class="form-control">
+										<div class="input-group-prepend">
+											<span class="input-group-text">to</span>
+										</div>
+										<input type="text" placeholder="End date" class="form-control">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="masonry-item  w-100">
+						<div class="row gap-20">
+							<!-- #Toatl Visits ==================== -->
+							<div class='col-md-3'>
+								<div class="layers bd bgc-white p-20">
+									<div class="layer w-100 mB-10">
+										<h6 class="lh-1">Total Conversations</h6>
+									</div>
+									<div class="layer w-100">
+										<div class="peers ai-sb fxw-nw">
+											<div class="peer peer-greed">
+												<!-- <span id="sparklinedash"></span> -->
+												<h2><%= number_with_delimiter(@total_conversations) %></h2>
+											</div>
+											<div class="peer d-none">
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- #Total Page Views ==================== -->
+							<div class='col-md-3'>
+								<div class="layers bd bgc-white p-20">
+									<div class="layer w-100 mB-10">
+										<h6 class="lh-1">New Conversations</h6>
+									</div>
+									<div class="layer w-100">
+										<div class="peers ai-sb fxw-nw">
+											<div class="peer peer-greed">
+												<!-- <span id="sparklinedash2"></span> -->
+												<h2><%= number_with_delimiter(@new_conversations) %></h2>
+											</div>
+											<div class="peer d-none">
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">-7%</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- #Unique Visitors ==================== -->
+							<div class='col-md-3'>
+								<div class="layers bd bgc-white p-20">
+									<div class="layer w-100 mB-10">
+										<h6 class="lh-1">Blocked Conversations</h6>
+									</div>
+									<div class="layer w-100">
+										<div class="peers ai-sb fxw-nw">
+											<div class="peer peer-greed">
+												<!-- <span id="sparklinedash3"></span> -->
+												<h2><%= number_with_delimiter(@blocked_conversations) %></h2>
+											</div>
+											<div class="peer d-none">
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">~12%</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- #Bounce Rate ==================== -->
+							<div class='col-md-3'>
+								<div class="layers bd bgc-white p-20">
+									<div class="layer w-100 mB-10">
+										<h6 class="lh-1">Reported Conversations</h6>
+									</div>
+									<div class="layer w-100">
+										<div class="peers ai-sb fxw-nw">
+											<div class="peer peer-greed">
+												<!-- <span id="sparklinedash4"></span> -->
+												<h2><%= number_with_delimiter(@reported_conversations) %></h2>
+											</div>
+											<div class="peer d-none">
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">33%</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="masonry-item col-md-12 d-none">
+						<div class="bgc-white p-20 bd">
+							<h6 class="c-grey-900">Easy Pie Charts</h6>
+							<div class="mT-30">
+								<div class="peers mT-20 fxw-nw@lg+ jc-sb ta-c gap-10">
+									<div class="peer">
+										<div class="easy-pie-chart" data-size='80' data-percent="75" data-bar-color='#f44336'>
+											<span></span>
+										</div>
+										<h6 class="fsz-sm">Reported Conversations</h6>
+									</div>
+									<div class="peer">
+										<div class="easy-pie-chart" data-size='80' data-percent="50" data-bar-color='#2196f3'>
+											<span></span>
+										</div>
+										<h6 class="fsz-sm">New Conversations</h6>
+									</div>
+									<div class="peer">
+										<div class="easy-pie-chart" data-size='80' data-percent="65" data-bar-color='#f44336'>
+											<span></span>
+										</div>
+										<h6 class="fsz-sm">Blocked Conversations</h6>
+									</div>
+									<div class="peer">
+										<div class="easy-pie-chart" data-size='80' data-percent="90" data-bar-color='#ff9800'>
+											<span></span>
+										</div>
+										<h6 class="fsz-sm">Bounce Rate</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="masonry-item col-md-12">
+						<div class="bgc-white p-20 bd">
+							<h6 class="c-grey-900">New vs. Blocked and Reported Conversations over time</h6>
+							<div class="mT-30">
+								<canvas id="line-chart" height="420"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<%= render partial: 'footer' %>
+	</div>
+</div>
 
-<p>Total conversations: <%= number_with_delimiter(@total_conversations) %></p>
-<p>New conversations: <%= number_with_delimiter(@new_conversations) %></p>
-<p>Blocked conversations: <%= number_with_delimiter(@blocked_conversations) %></p>
-<p>Reported conversations: <%= number_with_delimiter(@reported_conversations) %></p>
-
-<hr />
-
-<canvas id="line-chart" height="420"></canvas>
-
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
 <script>
-	const lineChartBox = document.getElementById('line-chart');
+	function renderChart() {
+		const lineChartBox = document.getElementById('line-chart');
+		if (lineChartBox) {
+			const lineCtx = lineChartBox.getContext('2d');
+			lineChartBox.height = 80;
 
-	if (lineChartBox) {
-		const lineCtx = lineChartBox.getContext('2d');
-		lineChartBox.height = 80;
-
-		new Chart(lineCtx, {
-			type: 'line',
-			data: {
-				labels: <%= raw @facebook_page.format_for_chart(
-					:raw_total_messaging_connections, 
-					:end_time, @start_date, @end_date).map{|d| d.to_date.to_s(:db)} %>,
-				datasets: [
-				{
-					label                : "<%= RawTotalMessagingConnection.title %>",
-					backgroundColor      : 'rgba(237, 231, 246, 0.5)',
-					borderColor          : COLORS['blue-500'],
-					pointBackgroundColor : COLORS['blue-700'],
-					borderWidth          : 2,
-					data                 : <%= @facebook_page.format_for_chart(:raw_total_messaging_connections, :value, @start_date, @end_date) %>,
-				}, 
-				{
-					label                : "<%= RawNewConversationsUnique.title %>",
-					backgroundColor      : 'rgba(232, 245, 233, 0.5)',
-					borderColor          : COLORS['green-200'],
-					pointBackgroundColor : COLORS['green-300'],
-					borderWidth          : 2,
-					data                 : <%= @facebook_page.format_for_chart(:raw_new_conversations_unique, :value, @start_date, @end_date) %>,
-				}, {
-					label                : "<%= RawReportedConversationsUnique.title %>",
-					backgroundColor      : 'rgba(232, 245, 233, 0.5)',
-					borderColor          : COLORS['red-200'],
-					pointBackgroundColor : COLORS['red-300'],
-					borderWidth          : 2,
-					data                 : <%= @facebook_page.format_for_chart(:raw_reported_conversations_unique, :value, @start_date, @end_date) %>,
-				}, {
-					label                : "<%= RawBlockedConversationsUnique.title %>",
-					backgroundColor      : 'rgba(232, 245, 233, 0.5)',
-					borderColor          : COLORS['red-500'],
-					pointBackgroundColor : COLORS['red-700'],
-					borderWidth          : 2,
-					data                 : <%= @facebook_page.format_for_chart(:raw_blocked_conversations_unique, :value, @start_date, @end_date) %>,
-				}],
-			},
-			options: {
-				tooltips: {
-					mode: 'index',
-					intersect: false,
-					callbacks: {
-						label: function(tooltipItem, data) {
-							console.log(tooltipItem)
-							console.log(data)
-							var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-							value = value.toString();
-							value = value.split(/(?=(?:...)*$)/);
-							value = data.datasets[tooltipItem.datasetIndex].label + ": " + value.join(',');
-							return value;
-						}
-					}
+			new Chart(lineCtx, {
+				type: 'line',
+				data: {
+					labels: <%= raw @facebook_page.format_for_chart(
+						:raw_total_messaging_connections, 
+						:end_time, @start_date, @end_date).map{|d| d.to_date.to_s(:db)} %>,
+					datasets: [
+					{
+						label                : "<%= RawTotalMessagingConnection.title %>",
+						backgroundColor      : 'rgba(237, 231, 246, 0.5)',
+						borderColor          : COLORS['blue-500'],
+						pointBackgroundColor : COLORS['blue-700'],
+						borderWidth          : 2,
+						data                 : <%= @facebook_page.format_for_chart(:raw_total_messaging_connections, :value, @start_date, @end_date) %>,
+					}, 
+					{
+						label                : "<%= RawNewConversationsUnique.title %>",
+						backgroundColor      : 'rgba(232, 245, 233, 0.5)',
+						borderColor          : COLORS['green-200'],
+						pointBackgroundColor : COLORS['green-300'],
+						borderWidth          : 2,
+						data                 : <%= @facebook_page.format_for_chart(:raw_new_conversations_unique, :value, @start_date, @end_date) %>,
+					}, {
+						label                : "<%= RawReportedConversationsUnique.title %>",
+						backgroundColor      : 'rgba(232, 245, 233, 0.5)',
+						borderColor          : COLORS['red-200'],
+						pointBackgroundColor : COLORS['red-300'],
+						borderWidth          : 2,
+						data                 : <%= @facebook_page.format_for_chart(:raw_reported_conversations_unique, :value, @start_date, @end_date) %>,
+					}, {
+						label                : "<%= RawBlockedConversationsUnique.title %>",
+						backgroundColor      : 'rgba(232, 245, 233, 0.5)',
+						borderColor          : COLORS['red-500'],
+						pointBackgroundColor : COLORS['red-700'],
+						borderWidth          : 2,
+						data                 : <%= @facebook_page.format_for_chart(:raw_blocked_conversations_unique, :value, @start_date, @end_date) %>,
+					}],
 				},
-				scales: {
-					yAxes: [{
-						ticks: {
-							beginAtZero:true,
-							userCallback: function(value, index, values) {
+				options: {
+					tooltips: {
+						mode: 'index',
+						intersect: false,
+						callbacks: {
+							label: function(tooltipItem, data) {
+								var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
 								value = value.toString();
 								value = value.split(/(?=(?:...)*$)/);
-								value = value.join(',');
+								value = data.datasets[tooltipItem.datasetIndex].label + ": " + value.join(',');
 								return value;
 							}
 						}
-					}],
-					xAxes: [{
-						ticks: {
-						}
-					}]
+					},
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero:true,
+								userCallback: function(value, index, values) {
+									value = value.toString();
+									value = value.split(/(?=(?:...)*$)/);
+									value = value.join(',');
+									return value;
+								}
+							}
+						}],
+						xAxes: [{
+							ticks: {
+							}
+						}]
+					}
 				}
-			}
-		});
+			});
+		}
 	}
+	// $(document).on('turbolinks:load', renderChart); // Turbolinks 5
+	renderChart()
 </script>
