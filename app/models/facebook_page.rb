@@ -24,7 +24,12 @@ class FacebookPage < ApplicationRecord
 	end
 
 	def total_conversations(start_date, end_date)
-		self.raw_total_messaging_connections.during(start_date, end_date).last.value
+		result = self.raw_total_messaging_connections.during(start_date, end_date)
+		if result.length > 0
+			result.last.value
+		else
+			0
+		end
 	end
 
 	def fetch_raw_data

@@ -13,14 +13,17 @@
 					<div class="masonry-item  w-100">
 						<div class="row gap-20">
 							<div class='col-md-12 d-flex justify-content-between'>
-								<h1 class="h3"><%= @facebook_page.name %>: <small class="text-muted"><%= @start_date.to_s(:short) %> - <%= @end_date.to_s(:short) %></small></h1>
+								<h1 class="h3"><%= @facebook_page.name %>: <small class="text-muted"><%= @start_date.to_s(:rfc822) %> - <%= @end_date.to_s(:rfc822) %></small></h1>
 								<div>
 									<div class="input-group input-daterange">
-										<input type="text" placeholder="Start date" class="form-control">
+										<input type="text" placeholder="Start date" id="daterange-start" class="form-control" value="<%= @start_date.to_s(:db) %>">
 										<div class="input-group-prepend">
 											<span class="input-group-text">to</span>
 										</div>
-										<input type="text" placeholder="End date" class="form-control">
+										<input type="text" placeholder="End date" id="daterange-end" class="form-control" value="<%= @end_date.to_s(:db) %>">
+										<div class="input-group-append">
+											<button class="btn btn-outline-primary" type="button" id="datepicker-submit" disabled>GO</button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -154,7 +157,7 @@
 	</div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<% content_for :javascript do %>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
 <script>
 	function renderChart() {
@@ -236,6 +239,45 @@
 			});
 		}
 	}
-	// $(document).on('turbolinks:load', renderChart); // Turbolinks 5
-	renderChart()
+	function runDatePicker() {
+		$('.input-daterange input').each(function() {
+			$(this).datepicker({
+				format: "yyyy/mm/dd"
+			}).on("changeDate", function() {
+				$("#datepicker-submit").attr('disabled', false)
+			});
+		});
+	}
+	function datepickerSubmit() {
+		$("#datepicker-submit").click(function() {
+			var start_date = $("#daterange-start").val()
+			var end_date = $("#daterange-end").val()
+			console.log(start_date)
+			console.log(end_date)
+
+			var currentUrl = new URL(window.location.href)
+			var query_string = currentUrl.search;
+			var search_params = new URLSearchParams(query_string); 
+			// new value of "id" is set to "101"
+			search_params.set('start_date', start_date);
+			search_params.set('end_date', end_date);
+
+			// change the search property of the main url
+			currentUrl.search = search_params.toString();
+
+			// the new url string
+			var new_url = currentUrl.toString();
+
+			// output : http://demourl.com/path?id=101&topic=main
+			console.log(new_url);
+			window.location.href = new_url;
+		})
+	}
+
+	$(document).ready(function(){
+		runDatePicker()
+		renderChart()
+		datepickerSubmit()
+	});
 </script>
+<% end %>

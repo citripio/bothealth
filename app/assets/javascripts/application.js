@@ -14,6 +14,8 @@
 //= require activestorage
 // require turbolinks
 //= require vendor
+//= require jquery
 //= require bundle
 //= require colors
-//= require_tree .
+//= require bootstrap-datepicker
+// require_tree .

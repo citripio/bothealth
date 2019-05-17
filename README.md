@@ -4,5 +4,5 @@
 - [ ] Invitar a usuarios inexistentes a registrarse dentro de un organization usando facebook
 - [x] Invitar a usuarios registrados a unirse a un organization
 - [ ] Registro con facebook sin traer lista de páginas
-- [ ] Hacer funcionar timepicker
+- [x] Hacer funcionar datepicker
 - [ ] Arreglar colores de charts

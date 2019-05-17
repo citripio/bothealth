@@ -11,8 +11,22 @@ class FacebookPagesController < ApplicationController
   # GET /facebook_pages/1
   # GET /facebook_pages/1.json
   def show
-    @start_date = params[:start_date].to_date rescue Date.today - 14.days
-    @end_date = params[:end_date].to_date rescue Date.today
+    @start_date = !params[:start_date].blank? ? params[:start_date].to_date : Date.today - 14.days
+    @end_date = !params[:end_date].blank? ? params[:end_date].to_date : Date.today
+
+    if @start_date == @end_date
+      flash[:notice] = "Start and End dates cannot be equal."
+      normalize_invalid_date_range
+      destroy_date_params
+      redirect_to request.path, :params => params
+    end
+    if @start_date > @end_date
+      flash[:alert] = "Start date cannot be more recent than End date."
+      normalize_invalid_date_range
+      destroy_date_params
+      redirect_to request.path, :params => params
+    end
+
     @total_conversations = @facebook_page.total_conversations(@start_date, @end_date)
     @new_conversations = @facebook_page.new_conversations(@start_date, @end_date)
     @blocked_conversations = @facebook_page.blocked_conversations(@start_date, @end_date)
@@ -74,6 +88,13 @@ class FacebookPagesController < ApplicationController
   end
 
   private
+    def destroy_date_params
+      params.delete :start_date
+      params.delete :end_date
+    end
+    def normalize_invalid_date_range
+      @start_date = @end_date - 14.days
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_facebook_page
       @facebook_page = FacebookPage.find(params[:id])
