@@ -1,5 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :set_organization, only: [:show, :edit, :update, :destroy]
+  before_action :authorized?, only: [:show, :edit, :update, :destroy]
 
   # GET /organizations
   # GET /organizations.json
@@ -63,6 +64,19 @@ class OrganizationsController < ApplicationController
   end
 
   private
+
+    def authorized?
+      if user_signed_in?
+        if current_user.organizations.pluck(:id).include? @organization.id
+          
+        else
+          raise ActionController::RoutingError.new('Not Found')
+        end
+      else
+        redirect_to root_url
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_organization
       @organization = Organization.find(params[:id])

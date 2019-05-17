@@ -94,6 +94,11 @@
 					</div>
 					<div class="masonry-item col-12 align-items-center border-bottom d-flex justify-content-between">
 						<h5 class="lh-1"><%= @organization.title %></h5>
+						<div class="d-flex flex-column">
+							<label>Invitation link</label>
+							<!-- <input type="text" value="<%= root_url + url_for(new_registration_path(resource_name, invitation: @organization.encoded_id)) %>" disabled class="form-control" /> -->
+							<input type="text" value="<%= root_url + url_for(controller: :application, action: :invitation, invitation_hash: @organization.encoded_id) %>" disabled class="form-control" />
+						</div>
 						<%= link_to "Add new Facebook Page", omniauth_authorize_path(:user, :facebook), class: "btn btn-primary" %>
 					</div>
 					<div class="masonry-item  w-100">
@@ -122,7 +127,6 @@
 				</div>
 			</div>
 		</main>
-
 		<%= render partial: 'footer' %>
 	</div>
 </div>

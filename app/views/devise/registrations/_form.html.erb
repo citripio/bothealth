@@ -19,14 +19,15 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
   </div>
 
+  <%= f.hidden_field :optional_invitation, value: params[:invitation] %>
   <div class="form-group">
     <%= f.submit "Sign up", class: "btn btn-primary" %>
   </div>
 
-  <hr />
 
-  <%- if devise_mapping.omniauthable? %>
+  <%- if devise_mapping.omniauthable? and params[:invitation].nil? %>
     <%- resource_class.omniauth_providers.each do |provider| %>
+      <hr />
       <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: "btn btn-primary btn-block" %>
     <% end %>
   <% end %>

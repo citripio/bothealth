@@ -6,6 +6,7 @@ class User < ApplicationRecord
 	devise	:database_authenticatable, :registerable,
 			:recoverable, :rememberable, :validatable,
 			:confirmable, :omniauthable, omniauth_providers: %i[facebook]
+	attr_accessor :optional_invitation
 
 	def self.from_omniauth(auth)
 		where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

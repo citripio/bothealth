@@ -66,3 +66,5 @@ gem 'devise', '~> 4.0'
 gem 'omniauth-facebook', '~> 5.0'
 
 gem 'koala', '~> 3.0'
+
+gem 'hashids'
