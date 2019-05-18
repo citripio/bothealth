@@ -13,7 +13,7 @@
 			<div id='mainContent'>
 				<div class="row gap-20 masonry pos-r">
 					<div class="masonry-sizer col-md-6"></div>
-					<div class="masonry-item  w-100">
+					<div class="masonry-item w-100">
 						<div class="row gap-20">
 							<!-- #Toatl Visits ==================== -->
 							<div class='col-md-3'>
@@ -27,13 +27,12 @@
 												<span id="sparklinedash"></span>
 											</div>
 											<div class="peer">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span>
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+N%</span>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-
 							<!-- #Total Page Views ==================== -->
 							<div class='col-md-3'>
 								<div class="layers bd bgc-white p-20">
@@ -46,13 +45,12 @@
 												<span id="sparklinedash2"></span>
 											</div>
 											<div class="peer">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">-7%</span>
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">-N%</span>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-
 							<!-- #Unique Visitors ==================== -->
 							<div class='col-md-3'>
 								<div class="layers bd bgc-white p-20">
@@ -65,13 +63,12 @@
 												<span id="sparklinedash3"></span>
 											</div>
 											<div class="peer">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">~12%</span>
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">~N%</span>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-
 							<!-- #Bounce Rate ==================== -->
 							<div class='col-md-3'>
 								<div class="layers bd bgc-white p-20">
@@ -84,7 +81,7 @@
 												<span id="sparklinedash4"></span>
 											</div>
 											<div class="peer">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">33%</span>
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">N%</span>
 											</div>
 										</div>
 									</div>
@@ -92,38 +89,51 @@
 							</div>
 						</div>
 					</div>
-					<div class="masonry-item col-12 align-items-center border-bottom d-flex justify-content-between">
-						<h5 class="lh-1"><%= @organization.title %></h5>
-						<div class="d-flex flex-column">
-							<label>Invitation link</label>
-							<!-- <input type="text" value="<%= root_url + url_for(new_registration_path(resource_name, invitation: @organization.encoded_id)) %>" disabled class="form-control" /> -->
-							<input type="text" value="<%= root_url + url_for(controller: :application, action: :invitation, invitation_hash: @organization.encoded_id) %>" disabled class="form-control" />
-						</div>
-						<%= link_to "Add new Facebook Page", omniauth_authorize_path(:user, :facebook), class: "btn btn-primary" %>
-					</div>
-					<div class="masonry-item  w-100">
+					<div class="masonry-item w-100">
 						<div class="row gap-20">
-							<% @organization.facebook_pages.each do |page| %>
-							<div class='col-md-3'>
-								<div class="layers bd bgc-white p-20">
-									<div class="layer w-100 mB-10">
-										<h6 class="lh-1"><%= link_to page.name, page %></h6>
-									</div>
-									<div class="layer w-100">
-										<div class="peers ai-sb fxw-nw">
-											<div class="peer peer-greed">
-												<!-- <span id="page1"></span> -->
+							<div class="col-md-8">
+								<div class="align-items-center border-bottom d-flex justify-content-between mb-2 pb-2">
+									<h5 class="lh-1"><%= @organization.title %></h5>
+									<%= link_to "Add new Facebook Page", omniauth_authorize_path(:user, :facebook), class: "btn btn-primary" %>
+								</div>
+								<div class="row gap-20">
+									<% @organization.facebook_pages.each do |page| %>
+									<div class='col-md-4'>
+										<div class="layers bd bgc-white p-20">
+											<div class="layer w-100 mB-10">
+												<h6 class="lh-1"><%= link_to page.name, page %></h6>
 											</div>
-											<div class="peer">
-												<!-- <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span> -->
+											<div class="layer w-100">
+												<div class="peers ai-sb fxw-nw">
+													<div class="peer peer-greed">
+														<!-- <span id="page1"></span> -->
+													</div>
+													<div class="peer">
+														<!-- <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span> -->
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
+									<% end %>
 								</div>
 							</div>
-							<% end %>
+							<div class="col-md-4">
+								<h6>Invitation link</h6>
+								<input type="text" value="<%= root_url + url_for(controller: :application, action: :invitation, invitation_hash: @organization.encoded_id) %>" disabled class="form-control" style="width: 100%;" />
+								<hr/>
+								<h6>Members</h6>
+								<ul>
+									<% @organization.users.each do |user| %>
+									<li><%= user.full_name %></li>
+									<% end %>
+								</ul>
+							</div>
 						</div>
 					</div>
+					<!-- <div class="masonry-item w-100">
+						
+					</div> -->
 				</div>
 			</div>
 		</main>

@@ -2,13 +2,13 @@
 <div class="header navbar">
 	<div class="header-container">
 		<ul class="nav-left">
-			<li>
+			<li class="d-none">
 				<a id='sidebar-toggle' class="sidebar-toggle" href="javascript:void(0);">
 					<!-- <i class="ti-menu"></i> -->
 					<i class="fas fa-bars"></i>
 				</a>
 			</li>
-			<li class="search-box">
+			<li class="search-box d-none">
 				<a class="search-toggle no-pdd-right" href="javascript:void(0);">
 					<!-- <i class="search-icon ti-search pdd-right-10"></i> -->
 					<i class="search-icon fas fa-search pdd-right-10"></i>
@@ -16,7 +16,7 @@
 					<i class="search-icon-close fas fa-times pdd-right-10"></i>
 				</a>
 			</li>
-			<li class="search-input">
+			<li class="search-input d-none">
 				<input class="form-control" type="text" placeholder="Search...">
 			</li>
 		</ul>
@@ -180,40 +180,41 @@
 					</li>
 				</ul>
 			</li>
-			<li class="dropdown d-none">
+			<li class="dropdown d-non">
 				<a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-toggle="dropdown">
 					<div class="peer mR-10">
-						<img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt="">
+						<img class="w-2r bdrs-50p" src="<%= current_user.profile_pic_url %>" alt="">
 					</div>
 					<div class="peer">
-						<span class="fsz-sm c-grey-900">John Doe</span>
+						<span class="fsz-sm c-grey-900"><%= current_user.first_name %></span>
 					</div>
 				</a>
 				<ul class="dropdown-menu fsz-sm">
-					<li>
+					<li class="d-none">
 						<a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
 							<i class="ti-settings mR-10"></i>
 							<span>Setting</span>
 						</a>
 					</li>
-					<li>
+					<li class="d-none">
 						<a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
 							<i class="ti-user mR-10"></i>
 							<span>Profile</span>
 						</a>
 					</li>
-					<li>
+					<li class="d-none">
 						<a href="email.html" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
 							<i class="ti-email mR-10"></i>
 							<span>Messages</span>
 						</a>
 					</li>
-					<li role="separator" class="divider"></li>
+					<li role="separator" class="divider d-none"></li>
 					<li>
-						<a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+						<%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "d-b td-n pY-5 bgcH-grey-100 c-grey-700" %>
+						<!-- <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
 							<i class="ti-power-off mR-10"></i>
 							<span>Logout</span>
-						</a>
+						</a> -->
 					</li>
 				</ul>
 			</li>

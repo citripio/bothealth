@@ -30,7 +30,27 @@ class User < ApplicationRecord
 		end
 	end
 
+	def profile_pic_url
+		# include MD5 gem, should be part of standard ruby install
+		require 'digest/md5'
+
+		if self.provider == "facebook"
+			return "http://graph.facebook.com/v2.10/#{self.uid}/picture?type=large"
+		elsif self.avatar?
+			return "#{PROJECT_WEBSITE}#{self.avatar.url}"
+		else
+			# create the md5 hash
+			hash = Digest::MD5.hexdigest(self.email)
+			# compile URL which can be used in <img src="RIGHT_HERE"...
+			return "https://www.gravatar.com/avatar/#{hash}"
+		end
+	end
+
 	def full_name
-		"#{self.first_name} #{self.last_name}"
+		if self.first_name.nil?
+			self.email
+		else
+			"#{self.first_name} #{self.last_name}"
+		end
 	end
 end
