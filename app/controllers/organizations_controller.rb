@@ -6,7 +6,11 @@ class OrganizationsController < ApplicationController
   # GET /organizations
   # GET /organizations.json
   def index
-    @organizations = Organization.all
+    if user_signed_in?
+      @organizations = current_user.organizations
+    else
+      @organizations = []
+    end
   end
 
   # GET /organizations/1

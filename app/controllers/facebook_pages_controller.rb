@@ -1,11 +1,16 @@
 class FacebookPagesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_facebook_page, only: [:show, :edit, :update, :destroy]
+  before_action :authorized?, only: [:show, :edit, :update, :destroy]
 
   # GET /facebook_pages
   # GET /facebook_pages.json
   def index
-    @facebook_pages = FacebookPage.all
+    if user_signed_in?
+      @facebook_pages = current_user.facebook_pages
+    else
+      @facebook_pages = []
+    end
   end
 
   # GET /facebook_pages/1
@@ -98,6 +103,17 @@ class FacebookPagesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_facebook_page
       @facebook_page = FacebookPage.find(params[:id])
+    end
+    def authorized?
+      if user_signed_in?
+        if current_user.facebook_pages.pluck(:id).include? @facebook_page.id
+          
+        else
+          raise ActionController::RoutingError.new('Not Found')
+        end
+      else
+        redirect_to root_url
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
