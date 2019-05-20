@@ -1,6 +1,6 @@
 class Organization < ApplicationRecord
 	has_and_belongs_to_many :users
-	has_many :facebook_pages
+	has_many :facebook_pages, dependent: :destroy
 
 	def self.hash_salt
 		"this is my salt"

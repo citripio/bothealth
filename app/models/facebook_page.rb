@@ -1,10 +1,10 @@
 class FacebookPage < ApplicationRecord
 	belongs_to :organization
-	has_many :raw_total_messaging_connections
-	has_many :raw_new_conversations_unique
-	has_many :raw_blocked_conversations_unique
-	has_many :raw_reported_conversations_unique
-	has_many :raw_feedback_by_action_unique
+	has_many :raw_total_messaging_connections, dependent: :destroy
+	has_many :raw_new_conversations_unique, dependent: :destroy
+	has_many :raw_blocked_conversations_unique, dependent: :destroy
+	has_many :raw_reported_conversations_unique, dependent: :destroy
+	has_many :raw_feedback_by_action_unique, dependent: :destroy
 	after_create :fetch_raw_data
 
 	def format_for_chart(name, field, start_date, end_date)

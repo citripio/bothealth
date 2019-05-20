@@ -10,18 +10,18 @@
 	</head>
 
 	<body>
-		<div id='loader'>
+		<!-- <div id='loader'>
 			<div class="spinner"></div>
-		</div>
+		</div> -->
 		<%= yield %>
 		<%= yield :javascript %>
-		<script>
+		<!-- <script>
 			window.addEventListener('load', function load() {
 				const loader = document.getElementById('loader');
 				setTimeout(function() {
 					loader.classList.add('fadeOut');
 				}, 300);
 			});
-		</script>
+		</script> -->
 	</body>
 </html>

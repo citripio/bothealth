@@ -94,7 +94,7 @@
 							<div class="col-md-8">
 								<div class="align-items-center border-bottom d-flex justify-content-between mb-2 pb-2">
 									<h5 class="lh-1"><%= @organization.title %></h5>
-									<%= link_to "Add new Facebook Page", omniauth_authorize_path(:user, :facebook), class: "btn btn-primary" %>
+									<%= link_to "Add new Facebook Page", omniauth_authorize_path(:user, :facebook, scope: "read_insights, pages_show_list"), class: "btn btn-primary" %>
 								</div>
 								<div class="row gap-20">
 									<% @organization.facebook_pages.each do |page| %>
@@ -127,6 +127,11 @@
 									<% @organization.users.each do |user| %>
 									<li><%= user.full_name %></li>
 									<% end %>
+								</ul>
+								<h6>Actions</h6>
+								<ul>
+									<li><%= link_to 'Edit organization', edit_organization_path(@organization) %></li>
+									<li><%= link_to 'Destroy organization', @organization, method: :delete, data: { confirm: 'Are you sure?' }, class: "text-danger" %></li>
 								</ul>
 							</div>
 						</div>
