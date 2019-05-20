@@ -5,8 +5,7 @@
 		<%= render partial: 'topbar' %>
 		<!-- ### $App Screen Content ### -->
 		<main class='main-content bgc-grey-100'>
-			<%= "<div class='alert alert-primary'>#{notice}</div>".html_safe if !notice.nil? %>
-			<%= "<div class='alert alert-danger'>#{alert}</div>".html_safe if !alert.nil? %>
+			<%= render partial: 'flash_messages' %>
 			<div id='mainContent'>
 				<div class="row gap-20 masonry pos-r">
 					<div class="masonry-sizer col-md-6 pos-a"></div>
