@@ -1,6 +1,18 @@
 class Organization < ApplicationRecord
 	has_and_belongs_to_many :users
 	has_many :facebook_pages, dependent: :destroy
+	extend FriendlyId
+	friendly_id :slug_candidates, use: :slugged
+
+	# Try building a slug based on the following fields in
+	# increasing order of specificity.
+	def slug_candidates
+		ran = SecureRandom.random_number(34567)
+		[
+			[:title],
+			[:title, ran],
+		]
+	end
 
 	def self.hash_salt
 		"this is my salt"
