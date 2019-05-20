@@ -53,6 +53,9 @@
 									</div>
 								</div>
 								<hr/>
+								<h6>Owner</h6>
+								<p><%= @organization.owner.full_name %></p>
+								<hr />
 								<h6>Members</h6>
 								<ul>
 									<% @organization.users.each do |user| %>

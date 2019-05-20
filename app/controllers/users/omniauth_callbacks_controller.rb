@@ -41,7 +41,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 					@current_organization.facebook_pages.create(
 						identifier: page["id"], 
 						name: page["name"], 
-						access_token: page["access_token"]
+						access_token: page["access_token"],
+						user_id: @user.id,
 					)
 				end
 			end

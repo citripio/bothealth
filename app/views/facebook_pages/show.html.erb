@@ -12,7 +12,7 @@
 					<div class="masonry-item  w-100">
 						<div class="row gap-20">
 							<div class='col-md-12 d-flex justify-content-between'>
-								<h1 class="h3"><%= @facebook_page.name %>: <small class="text-muted"><%= @start_date.to_s(:rfc822) %> - <%= @end_date.to_s(:rfc822) %></small></h1>
+								<h1 class="h3"><%= @facebook_page.name %>: <small class="text-muted"><%= @start_date.to_s(:rfc822) %> - <%= @end_date.to_s(:rfc822) %></small></h1><br/>
 								<div>
 									<div class="input-group input-daterange">
 										<input type="text" placeholder="Start date" id="daterange-start" class="form-control" value="<%= @start_date.to_s(:db) %>">
@@ -149,6 +149,9 @@
 								<canvas id="line-chart" height="420"></canvas>
 							</div>
 						</div>
+					</div>
+					<div class="masonry-item col-md-12">
+						<p><small>Owner: <%= @facebook_page.owner.full_name %></small></p>
 					</div>
 				</div>
 			</div>

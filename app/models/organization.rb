@@ -1,5 +1,6 @@
 class Organization < ApplicationRecord
 	has_and_belongs_to_many :users
+	belongs_to :owner, foreign_key: :user_id, class_name: 'User'
 	has_many :facebook_pages, dependent: :destroy
 	extend FriendlyId
 	friendly_id :slug_candidates, use: :slugged

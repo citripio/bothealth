@@ -1,5 +1,6 @@
 class FacebookPage < ApplicationRecord
 	belongs_to :organization
+	belongs_to :owner, foreign_key: :user_id, class_name: 'User'
 	has_many :raw_total_messaging_connections, dependent: :destroy
 	has_many :raw_new_conversations_unique, dependent: :destroy
 	has_many :raw_blocked_conversations_unique, dependent: :destroy

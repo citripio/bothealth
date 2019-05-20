@@ -10,19 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_20_182755) do
+ActiveRecord::Schema.define(version: 2019_05_20_204425) do
 
   create_table "facebook_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "identifier"
     t.string "name"
     t.string "slug"
     t.string "access_token"
+    t.bigint "user_id"
     t.bigint "organization_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["identifier"], name: "index_facebook_pages_on_identifier", unique: true
     t.index ["organization_id"], name: "index_facebook_pages_on_organization_id"
     t.index ["slug"], name: "index_facebook_pages_on_slug", unique: true
+    t.index ["user_id"], name: "index_facebook_pages_on_user_id"
   end
 
   create_table "friendly_id_slugs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -39,9 +41,11 @@ ActiveRecord::Schema.define(version: 2019_05_20_182755) do
   create_table "organizations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.string "slug"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_organizations_on_slug", unique: true
+    t.index ["user_id"], name: "index_organizations_on_user_id"
   end
 
   create_table "organizations_users", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -119,6 +123,8 @@ ActiveRecord::Schema.define(version: 2019_05_20_182755) do
   end
 
   add_foreign_key "facebook_pages", "organizations"
+  add_foreign_key "facebook_pages", "users"
+  add_foreign_key "organizations", "users"
   add_foreign_key "raw_blocked_conversations_uniques", "facebook_pages"
   add_foreign_key "raw_feedback_by_action_uniques", "facebook_pages"
   add_foreign_key "raw_new_conversations_uniques", "facebook_pages"
