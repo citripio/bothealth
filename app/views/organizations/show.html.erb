@@ -120,7 +120,7 @@
 							</div>
 							<div class="col-md-4">
 								<h6>Invitation link</h6>
-								<input type="text" value="<%= root_url + url_for(controller: :application, action: :invitation, invitation_hash: @organization.encoded_id) %>" disabled class="form-control" style="width: 100%;" />
+								<input type="text" value="<%= url_for(controller: :application, action: :invitation, invitation_hash: @organization.encoded_id, only_path: false) %>" disabled class="form-control" style="width: 100%;" />
 								<hr/>
 								<h6>Members</h6>
 								<ul>

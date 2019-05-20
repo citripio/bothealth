@@ -11,11 +11,23 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 			sign_in @user, event: :authentication #this will throw if @user is not activated
 			set_flash_message(:notice, :success, kind: "Facebook") if is_navigational_format?
 			# redirect_to new_facebook_page_path
+			accept_invitation
 			create_facebook_pages
 			redirect_to "/"
 		else
 			session["devise.facebook_data"] = request.env["omniauth.auth"]
 			redirect_to new_user_registration_url
+		end
+	end
+
+	def accept_invitation
+		if !request.env["omniauth.params"]["optional_invitation"].nil?
+			invitation = request.env["omniauth.params"]["optional_invitation"]
+			org = Organization.find_by(id: Organization.decode_id(invitation)[0].to_i)
+			if !org.nil?
+				@user.organizations << org
+				flash[:notice] << " You've been added to the \"#{org.title}\" organization."
+			end
 		end
 	end
 
@@ -25,13 +37,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 		fetched_pages = graph.get_object("me/accounts")
 		fetched_pages.each do |page|
 			if !FacebookPage.exists?(identifier: page["id"])
-				logger.info("DID NOT EXIST")
-				# FacebookPage.create(
-				@current_organization.facebook_pages.create(
-					identifier: page["id"], 
-					name: page["name"], 
-					access_token: page["access_token"]
-				)
+				if !@current_organization.nil?
+					@current_organization.facebook_pages.create(
+						identifier: page["id"], 
+						name: page["name"], 
+						access_token: page["access_token"]
+					)
+				end
 			end
 		end
 	end

@@ -25,10 +25,10 @@
   </div>
 
 
-  <%- if devise_mapping.omniauthable? and params[:invitation].nil? %>
+  <%- if devise_mapping.omniauthable? %>
     <%- resource_class.omniauth_providers.each do |provider| %>
       <hr />
-      <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: "btn btn-primary btn-block" %>
+      <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider, optional_invitation: params[:invitation]), class: "btn btn-primary btn-block" %>
     <% end %>
   <% end %>
 <% end %>
