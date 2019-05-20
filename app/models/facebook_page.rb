@@ -6,6 +6,19 @@ class FacebookPage < ApplicationRecord
 	has_many :raw_reported_conversations_unique, dependent: :destroy
 	has_many :raw_feedback_by_action_unique, dependent: :destroy
 	after_create :fetch_raw_data
+	extend FriendlyId
+	friendly_id :slug_candidates, use: :slugged
+
+	# Try building a slug based on the following fields in
+	# increasing order of specificity.
+	def slug_candidates
+		ran = SecureRandom.random_number(34567)
+		hash_id = SecureRandom.urlsafe_base64(24).gsub(/-|_/,('a'..'z').to_a[rand(26)])
+		[
+			[hash_id],
+			[hash_id, ran],
+		]
+	end
 
 	def format_for_chart(name, field, start_date, end_date)
 		self.public_send(name).during(start_date, end_date).pluck(field)

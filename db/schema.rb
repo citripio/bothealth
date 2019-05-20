@@ -10,17 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_20_180316) do
+ActiveRecord::Schema.define(version: 2019_05_20_182755) do
 
   create_table "facebook_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "identifier"
     t.string "name"
+    t.string "slug"
     t.string "access_token"
     t.bigint "organization_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["identifier"], name: "index_facebook_pages_on_identifier", unique: true
     t.index ["organization_id"], name: "index_facebook_pages_on_organization_id"
+    t.index ["slug"], name: "index_facebook_pages_on_slug", unique: true
   end
 
   create_table "friendly_id_slugs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

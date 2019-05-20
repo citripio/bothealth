@@ -102,7 +102,7 @@ class FacebookPagesController < ApplicationController
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_facebook_page
-      @facebook_page = FacebookPage.find(params[:id])
+      @facebook_page = FacebookPage.friendly.find(params[:id])
     end
     def authorized?
       if user_signed_in?
