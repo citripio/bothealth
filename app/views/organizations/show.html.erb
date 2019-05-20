@@ -46,7 +46,12 @@
 							</div>
 							<div class="col-md-4">
 								<h6>Invitation link</h6>
-								<input type="text" value="<%= url_for(controller: :application, action: :invitation, invitation_hash: @organization.encoded_id, only_path: false) %>" disabled class="form-control" style="width: 100%;" />
+								<div class="input-group mb-3">
+									<input id="clipboard-invitation-link" type="text" value="<%= url_for(controller: :application, action: :invitation, invitation_hash: @organization.encoded_id, only_path: false) %>" readonly class="form-control" />
+									<div class="input-group-append">
+										<button class="btn btn-outline-primary clipboard-copy-trigger" type="button" data-clipboard-target="#clipboard-invitation-link">COPY</button>
+									</div>
+								</div>
 								<hr/>
 								<h6>Members</h6>
 								<ul>
@@ -77,6 +82,12 @@
 <script>
 
 	$(document).ready(function(){
+		var clipboard = new ClipboardJS('.clipboard-copy-trigger');
+		clipboard.on('success', function(e) {
+			alert("copied to clipboard!");
+			e.clearSelection();
+		});
+
 		var sparklinesprefix = "fbpage-sparkline-";
 		<% @organization.facebook_pages.each_with_index do |page, index| %>
 			var el = $("#" + sparklinesprefix + <%= index %>);

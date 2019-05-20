@@ -19,4 +19,5 @@
 //= require colors
 //= require bootstrap-datepicker
 //= require jquery.sparkline.min
+//= require clipboard.min
 // require_tree .
