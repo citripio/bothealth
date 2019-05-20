@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
 			if !org.nil?
 				if user_signed_in?
 					current_user.organizations << org
+					flash[:notice] = " You've been added to the \"#{org.title}\" organization."
 					redirect_to url_for(org)
 				else
 					redurl = url_for(new_registration_path(:user, invitation: org.encoded_id))
