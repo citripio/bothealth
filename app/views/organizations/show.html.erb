@@ -14,89 +14,16 @@
 					<div class="masonry-sizer col-md-6"></div>
 					<div class="masonry-item w-100">
 						<div class="row gap-20">
-							<!-- #Toatl Visits ==================== -->
-							<div class='col-md-3'>
-								<div class="layers bd bgc-white p-20">
-									<div class="layer w-100 mB-10">
-										<h5 class="lh-1">Total Conversations</h5>
-									</div>
-									<div class="layer w-100">
-										<div class="peers ai-sb fxw-nw">
-											<div class="peer peer-greed">
-												<span id="sparklinedash"></span>
-											</div>
-											<div class="peer">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+N%</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- #Total Page Views ==================== -->
-							<div class='col-md-3'>
-								<div class="layers bd bgc-white p-20">
-									<div class="layer w-100 mB-10">
-										<h5 class="lh-1">New Conversations</h5>
-									</div>
-									<div class="layer w-100">
-										<div class="peers ai-sb fxw-nw">
-											<div class="peer peer-greed">
-												<span id="sparklinedash2"></span>
-											</div>
-											<div class="peer">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">-N%</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- #Unique Visitors ==================== -->
-							<div class='col-md-3'>
-								<div class="layers bd bgc-white p-20">
-									<div class="layer w-100 mB-10">
-										<h5 class="lh-1">Blocked Conversations</h5>
-									</div>
-									<div class="layer w-100">
-										<div class="peers ai-sb fxw-nw">
-											<div class="peer peer-greed">
-												<span id="sparklinedash3"></span>
-											</div>
-											<div class="peer">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">~N%</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- #Bounce Rate ==================== -->
-							<div class='col-md-3'>
-								<div class="layers bd bgc-white p-20">
-									<div class="layer w-100 mB-10">
-										<h5 class="lh-1">Reported Conversations</h5>
-									</div>
-									<div class="layer w-100">
-										<div class="peers ai-sb fxw-nw">
-											<div class="peer peer-greed">
-												<span id="sparklinedash4"></span>
-											</div>
-											<div class="peer">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">N%</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="masonry-item w-100">
-						<div class="row gap-20">
 							<div class="col-md-8">
 								<div class="align-items-center border-bottom d-flex justify-content-between mb-2 pb-2">
 									<h5 class="lh-1"><%= @organization.title %></h5>
 									<%= link_to "Add new Facebook Page", omniauth_authorize_path(:user, :facebook, scope: "read_insights, pages_show_list"), class: "btn btn-primary" %>
 								</div>
 								<div class="row gap-20">
-									<% @organization.facebook_pages.each do |page| %>
+									<div class="col-md-12">
+										<small><%= RawNewConversationsUnique.description %></small>
+									</div>
+									<% @organization.facebook_pages.each_with_index do |page, index| %>
 									<div class='col-md-4'>
 										<div class="layers bd bgc-white p-20">
 											<div class="layer w-100 mB-10">
@@ -105,7 +32,7 @@
 											<div class="layer w-100">
 												<div class="peers ai-sb fxw-nw">
 													<div class="peer peer-greed">
-														<!-- <span id="page1"></span> -->
+														<span id="fbpage-sparkline-<%= index %>"></span>
 													</div>
 													<div class="peer">
 														<!-- <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span> -->
@@ -127,6 +54,7 @@
 									<li><%= user.full_name %></li>
 									<% end %>
 								</ul>
+								<hr/>
 								<h6>Actions</h6>
 								<ul>
 									<li><%= link_to 'Edit organization', edit_organization_path(@organization) %></li>
@@ -144,3 +72,28 @@
 		<%= render partial: 'footer' %>
 	</div>
 </div>
+
+<% content_for :javascript do %>
+<script>
+
+	$(document).ready(function(){
+		var sparklinesprefix = "fbpage-sparkline-";
+		<% @organization.facebook_pages.each_with_index do |page, index| %>
+			var el = $("#" + sparklinesprefix + <%= index %>);
+			if (el.length > 0) {
+				var data = <%= raw page.format_for_chart(
+						:raw_new_conversations_unique, 
+						:value, Date.today - 18.days, Date.today) %>
+				$(el).sparkline(data, {
+					type: 'bar',
+					height: '20',
+					barWidth: '3',
+					resize: true,
+					barSpacing: '3',
+					barColor: '#4caf50',
+				});
+			}
+		<% end %>
+	});
+</script>
+<% end %>

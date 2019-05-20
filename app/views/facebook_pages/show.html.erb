@@ -32,18 +32,18 @@
 						<div class="row gap-20">
 							<!-- #Toatl Visits ==================== -->
 							<div class='col-md-3'>
-								<div class="layers bd bgc-white p-20">
+								<div class="layers bd bgc-white p-20"  data-toggle="tooltip" data-placement="top" title="Tooltip on top">
 									<div class="layer w-100 mB-10">
 										<h6 class="lh-1">Total Conversations</h6>
 									</div>
 									<div class="layer w-100">
 										<div class="peers ai-sb fxw-nw">
 											<div class="peer peer-greed">
-												<!-- <span id="sparklinedash"></span> -->
-												<h2><%= number_with_delimiter(@total_conversations) %></h2>
+												<span id="sparkline-total"></span>
+												<!-- <h2><%= number_with_delimiter(@total_conversations) %></h2> -->
 											</div>
-											<div class="peer d-none">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span>
+											<div class="peer">
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500"><%= number_with_delimiter(@total_conversations) %></span>
 											</div>
 										</div>
 									</div>
@@ -58,11 +58,11 @@
 									<div class="layer w-100">
 										<div class="peers ai-sb fxw-nw">
 											<div class="peer peer-greed">
-												<!-- <span id="sparklinedash2"></span> -->
-												<h2><%= number_with_delimiter(@new_conversations) %></h2>
+												<span id="sparkline-new"></span>
+												<!-- <h2><%= number_with_delimiter(@new_conversations) %></h2> -->
 											</div>
-											<div class="peer d-none">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">-7%</span>
+											<div class="peer">
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500"><%= number_with_delimiter(@new_conversations) %></span>
 											</div>
 										</div>
 									</div>
@@ -77,11 +77,11 @@
 									<div class="layer w-100">
 										<div class="peers ai-sb fxw-nw">
 											<div class="peer peer-greed">
-												<!-- <span id="sparklinedash3"></span> -->
-												<h2><%= number_with_delimiter(@blocked_conversations) %></h2>
+												<span id="sparkline-blocked"></span>
+												<!-- <h2><%= number_with_delimiter(@blocked_conversations) %></h2> -->
 											</div>
-											<div class="peer d-none">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">~12%</span>
+											<div class="peer">
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500"><%= number_with_delimiter(@blocked_conversations) %></span>
 											</div>
 										</div>
 									</div>
@@ -96,11 +96,12 @@
 									<div class="layer w-100">
 										<div class="peers ai-sb fxw-nw">
 											<div class="peer peer-greed">
-												<!-- <span id="sparklinedash4"></span> -->
-												<h2><%= number_with_delimiter(@reported_conversations) %></h2>
+												<span id="sparkline-reported"></span>
+												<!-- <h2><%= number_with_delimiter(@reported_conversations) %></h2> -->
 											</div>
-											<div class="peer d-none">
-												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">33%</span>
+											<div class="peer">
+												<!-- <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">33%</span> -->
+												<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500"><%= number_with_delimiter(@reported_conversations) %></span>
 											</div>
 										</div>
 									</div>
@@ -188,19 +189,19 @@
 						borderWidth          : 2,
 						data                 : <%= @facebook_page.format_for_chart(:raw_new_conversations_unique, :value, @start_date, @end_date) %>,
 					}, {
+						label                : "<%= RawBlockedConversationsUnique.title %>",
+						backgroundColor      : 'rgba(243, 229, 245, 0.5)',
+						borderColor          : COLORS['purple-500'],
+						pointBackgroundColor : COLORS['purple-700'],
+						borderWidth          : 2,
+						data                 : <%= @facebook_page.format_for_chart(:raw_blocked_conversations_unique, :value, @start_date, @end_date) %>,
+					}, {
 						label                : "<%= RawReportedConversationsUnique.title %>",
-						backgroundColor      : 'rgba(232, 245, 233, 0.5)',
+						backgroundColor      : 'rgba(255, 235, 238, 0.5)',
 						borderColor          : COLORS['red-200'],
 						pointBackgroundColor : COLORS['red-300'],
 						borderWidth          : 2,
 						data                 : <%= @facebook_page.format_for_chart(:raw_reported_conversations_unique, :value, @start_date, @end_date) %>,
-					}, {
-						label                : "<%= RawBlockedConversationsUnique.title %>",
-						backgroundColor      : 'rgba(232, 245, 233, 0.5)',
-						borderColor          : COLORS['red-500'],
-						pointBackgroundColor : COLORS['red-700'],
-						borderWidth          : 2,
-						data                 : <%= @facebook_page.format_for_chart(:raw_blocked_conversations_unique, :value, @start_date, @end_date) %>,
 					}],
 				},
 				options: {
@@ -251,8 +252,6 @@
 		$("#datepicker-submit").click(function() {
 			var start_date = $("#daterange-start").val()
 			var end_date = $("#daterange-end").val()
-			console.log(start_date)
-			console.log(end_date)
 
 			var currentUrl = new URL(window.location.href)
 			var query_string = currentUrl.search;
@@ -268,15 +267,44 @@
 			var new_url = currentUrl.toString();
 
 			// output : http://demourl.com/path?id=101&topic=main
-			console.log(new_url);
 			window.location.href = new_url;
 		})
+	}
+
+	function renderSparklines() {
+		var data = {
+			total: <%= @facebook_page.format_for_chart(:raw_total_messaging_connections, :value, @start_date, @end_date) %>,
+			new: <%= @facebook_page.format_for_chart(:raw_new_conversations_unique, :value, @start_date, @end_date) %>,
+			blocked: <%= @facebook_page.format_for_chart(:raw_blocked_conversations_unique, :value, @start_date, @end_date) %>,
+			reported: <%= @facebook_page.format_for_chart(:raw_reported_conversations_unique, :value, @start_date, @end_date) %>,
+		}
+		var colors = [
+			COLORS['blue-500'],
+			COLORS['green-500'],
+			COLORS['purple-500'],
+			COLORS['red-500'],
+		]
+		var keys = Object.keys(data)
+		for (var i = keys.length - 1; i >= 0; i--) {
+			var el = $("#sparkline-" + keys[i]);
+			if (el.length > 0) {
+				$(el).sparkline(data[keys[i]], {
+					type: 'bar',
+					height: '20',
+					barWidth: '3',
+					resize: true,
+					barSpacing: '3',
+					barColor: colors[i],
+				});
+			}
+		}
 	}
 
 	$(document).ready(function(){
 		runDatePicker()
 		renderChart()
 		datepickerSubmit()
+		renderSparklines()
 	});
 </script>
 <% end %>
