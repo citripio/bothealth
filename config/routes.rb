@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :organizations
   resources :facebook_pages
+  get '/:id/manual_refresh', to: 'facebook_pages#manual_refresh'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: "application#index"
   get '/dashboard', to: 'application#dashboard'

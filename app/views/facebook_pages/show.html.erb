@@ -150,8 +150,11 @@
 							</div>
 						</div>
 					</div>
-					<div class="masonry-item col-md-12">
+					<div class="masonry-item col-md-6">
 						<p><small>Owner: <%= @facebook_page.owner.full_name %></small></p>
+					</div>
+					<div class="masonry-item col-md-6 text-right">
+						<p><small>Last updated: <%= @last_updated %> | <%= link_to "Force refresh", controller: :facebook_pages, action: :manual_refresh, id: @facebook_page.id %></small></p>
 					</div>
 				</div>
 			</div>
