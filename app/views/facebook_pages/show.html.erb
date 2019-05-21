@@ -276,10 +276,10 @@
 
 	function renderSparklines() {
 		var data = {
-			total: <%= @facebook_page.format_for_chart(:raw_total_messaging_connections, :value, @start_date, @end_date) %>,
-			new: <%= @facebook_page.format_for_chart(:raw_new_conversations_unique, :value, @start_date, @end_date) %>,
-			blocked: <%= @facebook_page.format_for_chart(:raw_blocked_conversations_unique, :value, @start_date, @end_date) %>,
-			reported: <%= @facebook_page.format_for_chart(:raw_reported_conversations_unique, :value, @start_date, @end_date) %>,
+			total: <%= @facebook_page.format_for_chart(:raw_total_messaging_connections, :value, @start_date, @end_date).in_groups_of(@sparklines_length).map{|a| a.compact.reduce(0, :+)} %>,
+			new: <%= @facebook_page.format_for_chart(:raw_new_conversations_unique, :value, @start_date, @end_date).in_groups_of(@sparklines_length).map{|a| a.compact.reduce(0, :+)} %>,
+			blocked: <%= @facebook_page.format_for_chart(:raw_blocked_conversations_unique, :value, @start_date, @end_date).in_groups_of(@sparklines_length).map{|a| a.compact.reduce(0, :+)} %>,
+			reported: <%= @facebook_page.format_for_chart(:raw_reported_conversations_unique, :value, @start_date, @end_date).in_groups_of(@sparklines_length).map{|a| a.compact.reduce(0, :+)} %>,
 		}
 		var colors = [
 			COLORS['blue-500'],
