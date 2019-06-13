@@ -36,15 +36,16 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 	    me = graph.get_object("me")
 		fetched_pages = graph.get_object("me/accounts")
 		fetched_pages.each do |page|
-			if !FacebookPage.exists?(identifier: page["id"])
-				if !@current_organization.nil?
-					@current_organization.facebook_pages.create(
-						identifier: page["id"], 
-						name: page["name"], 
-						access_token: page["access_token"],
-						user_id: @user.id,
-					)
-				end
+			if !@current_organization.nil?
+				newitem = @current_organization.facebook_pages.find_or_initialize_by(
+					identifier: page["id"], 
+					name: page["name"], 
+					user_id: @user.id,
+				)
+				newitem.update(
+					access_token: page["access_token"]
+				)
+				newitem.save
 			end
 		end
 	end
