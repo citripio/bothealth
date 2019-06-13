@@ -18,7 +18,16 @@ class FacebookPagesController < ApplicationController
 			@facebook_page.fetch_raw_data
 		rescue Koala::Facebook::AuthenticationError => e
 			if e.fb_error_code === 190
-				redirect_to omniauth_authorize_path(:user, :facebook, scope: "read_insights, pages_show_list")
+				redirect_to omniauth_authorize_path(
+					:user, 
+					:facebook, 
+					scope: "read_insights, pages_show_list", 
+					after_auth_redirect: url_for(
+						controller: :facebook_pages,
+						action: :manual_refresh,
+						id: params[:id]
+					)
+				)
 				return
 			end
 		end
