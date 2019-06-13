@@ -14,7 +14,14 @@ class FacebookPagesController < ApplicationController
 	end
 
 	def manual_refresh
-		@facebook_page.fetch_raw_data
+		begin
+			@facebook_page.fetch_raw_data
+		rescue Koala::Facebook::AuthenticationError => e
+			if e.fb_error_code === 190
+				redirect_to omniauth_authorize_path(:user, :facebook, scope: "read_insights, pages_show_list")
+				return
+			end
+		end
 		redirect_to @facebook_page
 	end
 
